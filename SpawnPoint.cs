@@ -8,10 +8,10 @@ namespace CoordSaverV
         public Rage.Vector3 Position;
         public float Heading;
 
-        public SpawnPoint(float fHeading, Rage.Vector3 v3Position)
+        public SpawnPoint(float heading, Rage.Vector3 position)
         {
-            Heading = fHeading;
-            Position = v3Position;
+            Heading = heading;
+            Position = position;
         }
     }
 }

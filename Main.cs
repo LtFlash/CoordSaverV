@@ -24,7 +24,6 @@ using Rage.ConsoleCommands.AutoCompleters;
 
 //TODO:
 // - Command_LoadFromFileAndTranslateZones - check if value/key exists
-// - static finalizer: remove blips
 // - add: LoadBlipsFromAllFiles (xmls)
 
 [assembly: Plugin("CoordSaverV",
@@ -102,8 +101,7 @@ namespace CoordSaverV
         {
             string pathToFile = Path.Combine(HOME_FOLDER, ValidateFileName(fileName, extension));
 
-            if (File.Exists(pathToFile)) return pathToFile;
-            else return string.Empty; 
+            return File.Exists(pathToFile) ? pathToFile : "";
         }
 
         [ConsoleCommand]
@@ -127,7 +125,7 @@ namespace CoordSaverV
         {
             espCurrent.Tags.Add(tag);
 
-            DisplayInfo(string.Format("Tag [{0}] added!", tag));
+            DisplayInfo($"Tag [{tag}] added!");
         }
         
         [ConsoleCommand]
@@ -169,15 +167,14 @@ namespace CoordSaverV
         public static void Command_SetBlipsCreation(bool createBlips)
         {
             Settings.CreateBlips = createBlips;
+            DisplayInfo("Blips creation: " + (createBlips ? "on" : "off"));
         }
 
         [ConsoleCommand]
         public static void Command_SetZoneNameTranslation(bool translate)
         {
             Settings.TranslateZoneNames = translate;
-
-            if (Settings.TranslateZoneNames) DisplayInfo("Zone name translation: on");
-            else DisplayInfo("Zone name translation: off");
+            DisplayInfo("Zone name translation: " + (translate ? "on" : "off"));
         }
 
         [ConsoleCommand]
@@ -269,7 +266,7 @@ namespace CoordSaverV
             espCurrent.Street = World.GetStreetName(Position);
             espCurrent.Zone = zoneName;
 
-            DisplayInfo("Zone: " + espCurrent.Zone + ", Street: " + espCurrent.Street);
+            DisplayInfo($"Zone: {espCurrent.Zone}, Street: {espCurrent.Street}");
         }
 
         [ConsoleCommand]
@@ -307,9 +304,7 @@ namespace CoordSaverV
         public static void Command_SetAutoSave([ConsoleCommandParameter(Description ="true: save to file after adding the 1st SpawnPoint")] bool autosaveActive)
         {
             Settings.AutoSave = autosaveActive;
-
-            if (Settings.AutoSave) DisplayInfo("AutoSave status: on");
-            else DisplayInfo("AutoSave status: off");
+            DisplayInfo("AutoSave status: " + (autosaveActive ? "on" : "off"));
         }
 
         private static void DisplayInfo(string msg)

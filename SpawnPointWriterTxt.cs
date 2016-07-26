@@ -53,6 +53,7 @@ namespace CoordSaverV
         private List<string> CreateLines(ExtendedSpawnPoint esp)
         {
             List<string> lines = new List<string>();
+
             string lineTags = "//" + string.Join(", ", esp.Tags);
             string lineArea = "//" + string.Join(", ", esp.Zone, esp.Street);
 
