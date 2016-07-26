@@ -12,6 +12,7 @@ using Rage.ConsoleCommands.AutoCompleters;
  * - ISpawnPointWriter
  * - added SetOutputFormat
  * - finalizer
+ * - LoadBlipsFromAllFiles
  * 2016-06-15:
  * - AutoTag,
  * - AutoSave,
@@ -26,10 +27,12 @@ using Rage.ConsoleCommands.AutoCompleters;
 // - Command_LoadFromFileAndTranslateZones - check if value/key exists
 // - add: LoadBlipsFromAllFiles (xmls)
 
-[assembly: Plugin("CoordSaverV",
+[assembly: Plugin(
+    "CoordSaverV",
     Author = "LtFlash",
     Description ="Developer's tool to manually collect spawn points.",
     PrefersSingleInstance = true)]
+
 namespace CoordSaverV
 {
     public static class EntryPoint
@@ -211,6 +214,17 @@ namespace CoordSaverV
             if(count > 0) DisplayInfo("Blips added to your map, count: " + count);
         }
 
+        [ConsoleCommand(Description = "from xml files only")]
+        public static void Command_LoadBlipsFromAllFiles()
+        {
+            string[] files = Directory.GetFiles(HOME_FOLDER, "*.xml", SearchOption.TopDirectoryOnly);
+
+            for (int i = 0; i < files.Length; i++)
+            {
+                Command_LoadBlipsFromFile(files[i]);
+            }
+        }
+
         [ConsoleCommand]
         public static void Command_TranslateZonesInFile(
             [ConsoleCommandParameter(AutoCompleterType = typeof(FileNameCompleter))] string fileName,
@@ -316,7 +330,7 @@ namespace CoordSaverV
         [ConsoleCommand]
         public static void Command_CoordSaverV()
         {
-            Game.Console.Print("*****CoordSaverV 2.0 by LtFlash*****");
+            Game.Console.Print("*****CoordSaverV 2.1 by LtFlash*****");
             Game.Console.Print("* Basic commands:");
             Game.Console.Print("1. SetFileName to define where to save your spawns");
             Game.Console.Print(string.Format("2. AddSpawn ({0} + {1})", Settings.AddSpawnModifier, Settings.AddSpawnKey));

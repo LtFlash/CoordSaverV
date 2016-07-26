@@ -2,6 +2,7 @@
 
 New features in 2.1:
 - SetOutputFormat command
+- LoadBlipsFromAllFiles
 
 Basic commands:
 - SetFileName
@@ -32,6 +33,8 @@ Additional commands:
 	set color for blips.
 - LoadBlipsFromFile
 	loads ESPs from file and creates blips for all of them.
+- LoadBlipsFromAllFiles
+	load blips from all *.xml files inside the home folder.
 - RemoveAllBlips
 	removes all blips created by the plugin.
 - SetAutoTag
