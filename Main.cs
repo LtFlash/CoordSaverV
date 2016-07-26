@@ -11,6 +11,7 @@ using Rage.ConsoleCommands.AutoCompleters;
  * 2016-07-25:
  * - ISpawnPointWriter
  * - added SetOutputFormat
+ * - finalizer
  * 2016-06-15:
  * - AutoTag,
  * - AutoSave,
@@ -38,7 +39,8 @@ namespace CoordSaverV
         private static string _filePath = string.Empty;
 
         private static ISpawnPointWriter _spawnPointWriter = new SpawnPointWriterXml();
-
+        private static StaticFinalizer _finalizer;
+        private static bool _canRun;
         private static ExtendedSpawnPoint espCurrent = new ExtendedSpawnPoint();
         private static string _permTag = string.Empty;
         private static List<Blip> _blips = new List<Blip>();
@@ -46,12 +48,15 @@ namespace CoordSaverV
 
         public static void Main()
         {
-            Game.Console.Print("*****CoordSaverV 2.0 by LtFlash*****");
+            Game.Console.Print("*****CoordSaverV 2.1 by LtFlash*****");
             Game.Console.Print("Type \"CoordSaverV\" to display help.");
 
             Settings.LoadFromFile();
 
-            while (true)
+            _finalizer = new StaticFinalizer(Finalizer);
+            _canRun = true;
+
+            while (_canRun)
             {
                 if (Game.IsKeyDownRightNow(Settings.AddSpawnModifier) && Game.IsKeyDown(Settings.AddSpawnKey))
                 {
@@ -68,6 +73,12 @@ namespace CoordSaverV
 
                 GameFiber.Yield();
             }
+        }
+
+        private static void Finalizer()
+        {
+            _canRun = false;
+            Command_RemoveAllBlips();
         }
 
         [ConsoleCommand]
@@ -101,10 +112,12 @@ namespace CoordSaverV
             if (format == "xml")
             {
                 _spawnPointWriter = new SpawnPointWriterXml();
+                _filePath = string.Empty;
             }
             else if (format == "txt")
             {
                 _spawnPointWriter = new SpawnPointWriterTxt();
+                _filePath = string.Empty;
             }
             else Game.Console.Print("Wrong format!");
         }
@@ -231,9 +244,7 @@ namespace CoordSaverV
         {
             for (int i = 0; i < _blips.Count; i++)
             {
-                if (_blips[i] == null || !_blips[i].Exists()) continue;
-
-                _blips[i].Delete();
+                if (_blips[i]) _blips[i].Delete();
             }
 
             _blips.Clear();

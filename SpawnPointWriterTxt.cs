@@ -7,7 +7,7 @@ namespace CoordSaverV
     internal class SpawnPointWriterTxt : ISpawnPointWriter
     {
         public string FileName { get; set; }
-        private StreamWriter _file;
+        //private StreamWriter _file;
 
         public string FileExtension
         {
@@ -23,13 +23,31 @@ namespace CoordSaverV
 
             linesToSave = CreateLines(esp);
 
-            for (int i = 0; i < linesToSave.Count; i++)
-            {
-                _file.WriteLine(linesToSave[i]);
-            }
-            _file.WriteLine();
+            SaveToFile(linesToSave);
 
-            _file.Close();
+            //_file = new StreamWriter(FileName, true);
+
+            //for (int i = 0; i < linesToSave.Count; i++)
+            //{
+            //    _file.WriteLine(linesToSave[i]);
+            //}
+            //_file.WriteLine();
+
+            //_file.Close();
+        }
+
+        private void SaveToFile(List<string> lines)
+        {
+            using (var file = new StreamWriter(FileName, true))
+            {
+                for (int i = 0; i < lines.Count; i++)
+                {
+                    file.WriteLine(lines[i]);
+                }
+                file.WriteLine();
+
+                file.Flush();
+            }
         }
 
         private List<string> CreateLines(ExtendedSpawnPoint esp)

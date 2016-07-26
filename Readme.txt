@@ -1,4 +1,7 @@
-﻿CoordSaverV 2.0 by LtFlash
+﻿CoordSaverV 2.1 by LtFlash
+
+New features in 2.1:
+- SetOutputFormat command
 
 Basic commands:
 - SetFileName
@@ -15,6 +18,12 @@ Basic commands:
 	saves your ESP to file.
 
 Additional commands:
+- SetOutputFormat
+	sets the type of output format of data; there are 
+	two available options: xml serialization, txt file
+	containing SpawnPoint constructors filled with coords
+	of saved spawns. Set output file name after using
+	this command.
 - SetAutoSave
 	will save the ESP after adding the first spawn point.
 - SetBlipsCreation
