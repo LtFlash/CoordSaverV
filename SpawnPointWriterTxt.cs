@@ -7,7 +7,6 @@ namespace CoordSaverV
     internal class SpawnPointWriterTxt : ISpawnPointWriter
     {
         public string FileName { get; set; }
-        //private StreamWriter _file;
 
         public string FileExtension
         {
@@ -24,16 +23,6 @@ namespace CoordSaverV
             linesToSave = CreateLines(esp);
 
             SaveToFile(linesToSave);
-
-            //_file = new StreamWriter(FileName, true);
-
-            //for (int i = 0; i < linesToSave.Count; i++)
-            //{
-            //    _file.WriteLine(linesToSave[i]);
-            //}
-            //_file.WriteLine();
-
-            //_file.Close();
         }
 
         private void SaveToFile(List<string> lines)
@@ -62,7 +51,7 @@ namespace CoordSaverV
 
             foreach (var sp in esp.Spawn)
             {
-                string lineSpawn = $"new SpawnPoint({sp.Heading.ToString(CultureInfo.InvariantCulture)}f, {sp.Position.X.ToString(CultureInfo.InvariantCulture)}f, {sp.Position.Y.ToString(CultureInfo.InvariantCulture)}f, {sp.Position.Z.ToString(CultureInfo.InvariantCulture)}f);";
+                string lineSpawn = $"new SpawnPoint({sp.Heading.ToString(CultureInfo.InvariantCulture)}f, new Vector3({sp.Position.X.ToString(CultureInfo.InvariantCulture)}f, {sp.Position.Y.ToString(CultureInfo.InvariantCulture)}f, {sp.Position.Z.ToString(CultureInfo.InvariantCulture)}f));";
 
                 lines.Add(lineSpawn);
             }
