@@ -8,13 +8,7 @@ namespace CoordSaverV
     {
         public string FileName { get; set; }
 
-        public string FileExtension
-        {
-            get
-            {
-                return "txt";
-            }
-        }
+        public string FileExtension => "txt";
 
         public void Save(ExtendedSpawnPoint esp)
         {
